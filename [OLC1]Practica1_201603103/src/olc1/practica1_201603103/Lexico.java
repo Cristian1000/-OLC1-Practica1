@@ -9,14 +9,8 @@ package olc1.practica1_201603103;
  *
  * @author crist
  */
-public class OLC1Practica1_201603103 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        Ventana nueva = new Ventana();
-        nueva.setVisible(true);
+public class Lexico {
+    public Lexico(){
+        
     }
-    
 }
