@@ -5,19 +5,33 @@
  */
 package olc1.practica1_201603103;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author crist
  */
 public class Conjunto {
     String nombre;
-    String inicio;
-    String fin;
+    char inicio;
+    char fin;
+    ArrayList<Object> conjunto;
 
-    public Conjunto(String nombre, String inicio, String fin) {
+    public Conjunto(String nombre, char inicio, char fin) {
+        
         this.nombre = nombre;
         this.inicio = inicio;
         this.fin = fin;
+        llenado(inicio, fin);
+    }
+
+    public Conjunto() {
+        conjunto = new ArrayList<>();
+    }
+    
+    
+    public Conjunto(char caracter){
+        llenar(caracter);
     }
 
     public String getNombre() {
@@ -28,20 +42,43 @@ public class Conjunto {
         this.nombre = nombre;
     }
 
-    public String getInicio() {
-        return inicio;
+    public ArrayList<Object> getConjunto() {
+        return conjunto;
     }
 
-    public void setInicio(String inicio) {
-        this.inicio = inicio;
-    }
-
-    public String getFin() {
-        return fin;
-    }
-
-    public void setFin(String fin) {
-        this.fin = fin;
+    public void setConjunto(ArrayList<Object> conjunto) {
+        this.conjunto = conjunto;
     }
     
+    public boolean existe(char a){
+        if (conjunto.contains((int)a)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public void llenar(char a){
+        System.out.println(a);
+        int b = (int)a;
+        conjunto.add(b);
+    }
+    public void llenado(char ini, char fin){
+        if ((int)ini>= 32 &&  (int)fin<=125) {
+            this.conjunto = new ArrayList<Object>();
+            for (int i = (int)ini; i <= (int)fin; i++){
+            conjunto.add(i);
+        }
+        } else {
+            if((int)ini<= 32 &&  (int)fin>=125){
+                System.out.println("El parametro inicial y final no estan detro de los limites permitidos");
+            }else{
+                if((int)ini<= 32 || (int)ini>= 125){
+                    System.out.println("El limite inicial no esta fuera de los permitido");
+                }else if((int)fin<= 32 || (int)fin>= 125){
+                    System.out.println("El limite finañl no esta fuera de los permitido");
+                }
+            }
+        }
+    }
 }

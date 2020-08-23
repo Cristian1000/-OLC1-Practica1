@@ -5,6 +5,8 @@
  */
 package olc1.practica1_201603103;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author crist
@@ -58,9 +60,19 @@ public class Ventana extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setText("Generar Automata");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("Analizar Entrada");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jScrollPane3.setViewportView(jTextPane2);
 
@@ -182,7 +194,102 @@ public class Ventana extends javax.swing.JFrame {
         Leer texto = new Leer();
         jTextPane1.setText(texto.Texto()); 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+    ArrayList<Token> tokens;
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Lexico nuevo = new Lexico();
+        tokens = nuevo.Analisis(jTextPane1.getText());
+        conjuntos();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        System.out.println("Imprimir lista");
+        for (Token to: tokens) {
+                System.out.println(to.getNombre());
+            }
+            System.out.println(conjunto.size());
+    }//GEN-LAST:event_jButton2ActionPerformed
+    Conjunto cadena;
+    ArrayList<Conjunto> conjunto = new ArrayList<>();
+    public void conjuntos(){
+        System.out.println("entro");
+        int estado = 1;
+        for (int i =0;i<tokens.size();i++) {
+//            System.out.println(tokens.get(i).getNombre());
+            switch(estado){
+                case 1:
+                    if(tokens.get(i).getNombre().equals("CONJ")){
+                System.out.println(tokens.get(i).getNombre());
+                System.out.println(tokens.get(i+6).getNombre());
+                if(tokens.get(i+6).getNombre().equals("~")){
+                    estado = 2;
+                    
+                }
+                if(tokens.get(i+6).getNombre().equals(",")){
+                    estado = 3;
+                    }
+                }
+                    break;
+                case 2:
+                    if(tokens.get(i).getNombre().equals("~")){
+                        i--;
+                        Conjunto nuevo = new Conjunto(tokens.get(i-3).nombre, tokens.get(i).nombre.charAt(0), tokens.get(i+2).nombre.charAt(0));
+                        conjunto.add(nuevo);
+                        estado = 1;
+                    }
+                    break;
+                    
+                case 3:
+                    cadena = new Conjunto();
+                    cadena.setNombre(tokens.get(i+2).nombre);
+                    estado = 4;
+//                    i+=4;
+//                    System.out.println(tokens.get(i).nombre);
+                    
+                    break;
+                case 4:
+                    if(tokens.get(i).nombre != ","){
+                        i--;
+                        char a [] = tokens.get(i).nombre.toCharArray();
+//                        System.out.println(a[0]);
+                        cadena.llenar(a[0]);
+                        }else{
+                            conjunto.add(cadena);
+                            estado = 1;
+                        }
+                    break;
+            }
+//                switch(estado){
+//                    case 1:
+//                        if(tokens.get(i).getNombre() == "CONJ"){
+//                            System.out.println(tokens.get(i).getNombre());
+//                            if(tokens.get(i+6).nombre == "~"){
+//                                estado = 2;
+//                            }
+//                            if(tokens.get(i+6).nombre == ","){
+//                                estado = 3;
+//                            }
+//                        }
+//                        break;
+//                    case 2:
+//                        Conjunto nuevo = new Conjunto(tokens.get(i+2).nombre, tokens.get(i+5).nombre.charAt(0), tokens.get(i+7).nombre.charAt(0));
+//                        conjunto.add(nuevo);
+//                        estado = 1;
+//                        i+=7;
+//                        break;
+//                    case 3:
+//                        Conjunto cadena = new Conjunto();
+//                        cadena.setNombre(tokens.get(i+2).nombre);
+//                        i+=5;
+//                        if(tokens.get(i).nombre != ","){
+//                            cadena.llenar(tokens.get(i).nombre.charAt(0));
+//                        }else{
+//                            conjunto.add(cadena);
+//                            estado = 1;
+//                        }
+//                        break;
+//                }
+            }
+    }
     /**
      * @param args the command line arguments
      */
